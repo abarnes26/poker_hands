@@ -9,7 +9,7 @@
 
 require 'pry'
 require_relative 'poker_hand_eval_helpers'
-require_relative 'poker_eval_libraries'
+require_relative 'poker_hand_eval_libraries'
 
 class PokerHandEval < PokerEvalHelpers
   include PokerEvalLibraries
