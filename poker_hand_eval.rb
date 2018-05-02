@@ -43,24 +43,133 @@ class PokerHandEval
   end
 
   def determine_hand
-    case hand
-    when sequenced && suited
+    if sequenced && suited
       return 'Straight Flush'
+    elsif four_pair
+      return 'Four of a Kind'
+    elsif full_house
+      return 'Full House'
+    elsif suited
+      return 'Flush'
+    elsif sequenced
+      return 'Straight'
+    elsif three_of_a_kind
+      return 'Three of a Kind'
+    elsif two_pair
+      return 'Two Pair'
+    elsif one_pair
+      value = pair_value
+      return "Pair of #{library_of_values[value.to_sym]}s"
+    elsif high_card
+      return "High Card, #{high_card}"
     end
   end
 
-  def straight_flush
+  def four_pair
+    values = collect_values
+    counts = Hash.new 0
+    values.each do |value|
+      counts[value] += 1
+    end
+    if counts.max_by{|k,v| v}[1] == 4
+      true
+    else
+      false
+    end
+  end
 
+  def full_house
+    values = collect_values
+    counts = Hash.new 0
+    values.each do |value|
+      counts[value] += 1
+    end
+    if counts.length == 2
+      true
+    else
+      false
+    end
+  end
+
+  def three_of_a_kind
+    values = collect_values
+    counts = Hash.new 0
+    values.each do |value|
+      counts[value] += 1
+    end
+    if counts.length > 2 && counts.max_by{|k,v| v}[1] == 3
+      true
+    else
+      false
+    end
+  end
+
+  def two_pair
+    values = collect_values
+    counts = Hash.new 0
+    values.each do |value|
+      counts[value] += 1
+    end
+    if counts.length == 3 && counts.max_by{|k,v| v}[1] == 2
+      true
+    else
+      false
+    end
+  end
+
+  def one_pair
+    values = collect_values
+    counts = Hash.new 0
+    values.each do |value|
+      counts[value] += 1
+    end
+    if counts.length == 4 && counts.max_by{|k,v| v}[1] == 2
+      true
+    else
+      false
+    end
+  end
+
+  def pair_value
+    values = collect_values
+    counts = Hash.new 0
+    values.each do |value|
+      counts[value] += 1
+    end
+    return counts.max_by{|k,v| v}[0]
+  end
+
+  def high_card
+    values = collect_numerical_values.sort
+    high_value = numeric_values.key(values[4])
+    return library_of_values[high_value]
+  end
+
+  def collect_numerical_values
+    values = collect_values
+    return values.map {|value| numeric_values[value.to_sym]}
+  end
+
+  def total_occurrences
+    values = collect_values
+    counts = Hash.new 0
+    values.each do |value|
+      counts[value] += 1
+    end
   end
 
   def sequenced
     sequenced = true
-    values = hand.collect { |r| r[0..-2] }
+    values = collect_values
     num_values = (values.map { |value| numeric_values[value.to_sym] }).sort
     unless num_values[4] == (num_values[0] + 4)
       sequenced = false
     end
     sequenced
+  end
+
+  def collect_values
+    hand.collect { |r| r[0..-2] }
   end
 
   def suited
