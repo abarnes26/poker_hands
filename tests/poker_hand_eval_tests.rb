@@ -1,7 +1,7 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require 'pry'
-require_relative 'poker_hand_eval'
+require './lib/poker_hand_eval'
 
 class PokerHandTest < Minitest::Test
 
