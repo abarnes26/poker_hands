@@ -7,7 +7,6 @@
 #
 # Poker Hand Rankings: https://en.wikipedia.org/wiki/List_of_poker_hands
 
-require 'pry'
 require_relative 'poker_hand_eval_helpers'
 require_relative 'poker_hand_eval_libraries'
 
