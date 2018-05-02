@@ -1,10 +1,14 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require 'pry'
-
 require_relative 'poker_hand_eval'
 
 class PokerHandTest < Minitest::Test
+
+  def test_hand_validator_invalid
+    hand = PokerHandEval.new(['Ah','10c','7d','6s']).evaluate
+    assert_equal "I'm sorry, that hand is invalid", hand
+  end
 
   def test_card_validator_valid
     hand = PokerHandEval.new(['Ah','As','10c','7d','6s']).validate_cards
@@ -16,7 +20,7 @@ class PokerHandTest < Minitest::Test
     assert_equal false, hand
   end
 
-  # 'suited' means all the same suit
+  # 'suited' => all the same suit
   def test_it_can_tell_if_a_suited_hand_is_suited
     hand = PokerHandEval.new(['Ah','3h','10h','7h','6h']).suited
     assert_equal true, hand
