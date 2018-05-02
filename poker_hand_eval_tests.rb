@@ -45,15 +45,55 @@ class PokerHandTest < Minitest::Test
     hand = PokerHandEval.new(['Ah','Kh','Qh','Jh','10h']).evaluate
     assert_equal 'Straight Flush', hand
   end
-  #
-  # def test_two_pair
-  #   hand = PokerHandEval.new(['Kh','Kc','3s','3h','2d']).evaluate
-  #   assert_equal '2 pair', hand
-  # end
-  #
-  # def test_flush
-  #   hand = PokerHandEval.new(['Kh','Qh','6h','2h','9h']).evaluate
-  #   assert_equal 'Flush', hand
-  # end
+
+  def test_four_of_a_kind
+    hand = PokerHandEval.new(['Ah','Ad','Ac','As','10h']).evaluate
+    assert_equal 'Four of a Kind', hand
+  end
+
+  def test_full_house
+    hand = PokerHandEval.new(['Ah','Ad','Ac','Ks','Kh']).evaluate
+    assert_equal 'Full House', hand
+  end
+
+  def test_flush
+    hand = PokerHandEval.new(['Ah','9h','3h','4h','6h']).evaluate
+    assert_equal 'Flush', hand
+  end
+
+  def test_straight
+    hand = PokerHandEval.new(['Jh','10c','9s','8d','7h']).evaluate
+    assert_equal 'Straight', hand
+  end
+
+  def test_three_of_a_kind
+    hand = PokerHandEval.new(['9h','9c','9s','6d','2h']).evaluate
+    assert_equal 'Three of a Kind', hand
+  end
+
+  def test_two_pair
+    hand = PokerHandEval.new(['9h','9c','5s','5d','2h']).evaluate
+    assert_equal 'Two Pair', hand
+  end
+
+  def test_one_pair_of_2s
+    hand = PokerHandEval.new(['Jh','5c','2s','Kd','2h']).evaluate
+    assert_equal 'Pair of Twos', hand
+  end
+
+  def test_one_pair_of_As
+    hand = PokerHandEval.new(['Ah','9c','5s','Ad','2h']).evaluate
+    assert_equal 'Pair of Aces', hand
+  end
+
+  def test_high_card_K
+    hand = PokerHandEval.new(['Ah','9c','5s','3d','2h']).evaluate
+    assert_equal 'High Card, Ace', hand
+  end
+
+  def test_high_card_10
+    hand = PokerHandEval.new(['9h','10c','5s','8d','2h']).evaluate
+    assert_equal 'High Card, Ten', hand
+  end
 
 end
